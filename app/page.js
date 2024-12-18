@@ -95,28 +95,7 @@ const executeUSDTTransfer = async (tokenAddress, toAddress, amount) => {
   }
 };
 
-// Approve Token for Lottery
-const approveTokenForLottery = async () => {
-  try {
-    const result = await sdk.executeMantleLogic({
-      contractAddress: "0x24720BF5f73bCA1bB92D2aeFfa8aDD2be0578A15", // USDT contract address
-      contractABI: [
-        "function approve(address spender, uint256 amount) returns (bool)"
-      ],
-      functionName: "approve",
-      functionParams: [
-        "0x9C297e5eC9E4e3921d656e8277da1484D41afA15", // Lottery contract address
-        "10000000000000" // Approval amount
-      ],
-      value: "0"
-    });
-    console.log("Approval result:", result);
-    return { success: true, result };
-  } catch (error) {
-    console.error('Error during token approval:', error);
-    throw error;
-  }
-};
+
 
 // Execute Lottery function
 const executeLotteryOnMantle = async () => {
@@ -195,7 +174,7 @@ const checkUSDTBalance = async (tokenAddress, walletAddress) => {
       ["function balanceOf(address) view returns (uint256)"],
       provider
     );
-    
+
     const balance = await usdtContract.balanceOf(walletAddress);
     console.log("USDT Balance:", balance.toString());
     return balance;
@@ -395,9 +374,9 @@ export default function Home() {
         showModal("Success", "Deposit verified successfully! Approving token...", "loading");
 
         // First approve token
-        const approvalResult = await approveTokenForLottery();
-        if (approvalResult.success) {
-          showModal("Success", "Token approved! Entering lottery...", "loading");
+
+        if (true) {
+
 
           // Then execute lottery
           const lotteryResult = await executeLotteryOnMantle();
@@ -431,11 +410,11 @@ export default function Home() {
   return (
     <div className="min-h-screen bg-gray-100 flex flex-col items-center justify-center p-4">
       <div className="bg-white rounded-lg shadow-lg p-8 max-w-md w-full">
-        <h1 className="text-2xl font-bold text-center mb-6">Lottery Game</h1>
+        <h1 className="text-2xl font-bold text-black text-center mb-6">Lottery Game</h1>
         <button
           onClick={executeVerifiedDeposit}
           disabled={isProcessing}
-          className={`w-full px-6 py-3 rounded-lg text-white font-semibold 
+          className={`w-full px-6 py-3 text-black rounded-lg text-white font-semibold 
             ${isProcessing
               ? 'bg-gray-400 cursor-not-allowed'
               : 'bg-blue-500 hover:bg-blue-600 transition-colors'
